@@ -7,6 +7,5 @@ router.get('/', function(req, res, next) {
 });
 //router.use('/api', require('./api'));
 router.use('/blog', require('./api/blog/post'));
-router.use('/blog', require('./api/users/login'));
-router.use('/blog', require('./api/users/signup'));
+router.use('/users', require('./api/users'));
 module.exports = router;

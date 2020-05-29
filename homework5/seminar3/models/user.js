@@ -72,6 +72,16 @@ const user = {
             throw err;
         }
     },
+    getUserName : async (id) => {
+        const query = `SELECT name FROM ${table} where id="${id}"`;
+        try {
+            const result = await pool.queryParamArr(query);
+            return result[0];
+        } catch (err) {
+            console.log('getUserName error: ', err);
+            throw err;
+        }
+    },
     getUserAll : async () => {
         const query = `SELECT * FROM ${table}`;
         try {

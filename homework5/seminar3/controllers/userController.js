@@ -1,5 +1,3 @@
-var express = require('express');
-var router = express.Router();
 let User = require('../models/user');
 let util = require('../modules/util');
 let statusCode = require('../modules/statusCode');
@@ -7,8 +5,9 @@ let resMessage = require('../modules/responseMessage');
 const crypto = require('crypto');
 const jwt = require('../modules/jwt');
 
-//회원가입
-router.post('/signup', async (req, res) => {
+module.exports={
+    //회원가입
+signup : async (req, res) => {
     const {
         id,
         name,
@@ -36,12 +35,12 @@ router.post('/signup', async (req, res) => {
         return res.status(statusCode.DB_ERROR)
             .send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
     }
-    res.status(statusCode.OK)
+    return res.status(statusCode.OK)
         .send(util.success(statusCode.OK, resMessage.CREATED_USER, {userId: idx}));
-});
+},
 
 //로그인
-router.post('/signin', async (req, res) => {
+signin : async (req, res) => {
     // request body 에서 데이터 가져오기
     const {
         id,
@@ -72,12 +71,12 @@ router.post('/signin', async (req, res) => {
     const user = await User.getUserById(id);
     const {token, _} = await jwt.sign(user);
     // 로그인이 성공적으로 마쳤다면 - LOGIN_SUCCESS 전달
-    res.status(statusCode.OK)
+    return res.status(statusCode.OK)
         .send(util.success(statusCode.OK, resMessage.LOGIN_SUCCESS, { accessToken : token}));
-});
+},
 
 //프로필조회
-router.get('/profile/:id', async (req, res) => {
+profile: async (req, res) => {
     // request params 에서 데이터 가져오기
     const id = req.params.id;
     const idx1 = await User.checkUser(id);
@@ -89,15 +88,14 @@ router.get('/profile/:id', async (req, res) => {
     }
     // 성공 - login success와 함께 user Id 반환
     const idx = await User.getUserById(id);
-    res.status(statusCode.OK)
+    return res.status(statusCode.OK)
         .send(util.success(statusCode.OK, resMessage.READ_PROFILE_SUCCESS, {userId:idx.id, userName:idx.name, userEmail:idx.email}));
-});
+},
 
 //전체 회원 조회
-router.get('/', async(req, res)=>{
+profileAll: async(req, res)=>{
     const idx = await User.getUserAll();
-    res.status(statusCode.OK)
+    return res.status(statusCode.OK)
     .send(util.success(statusCode.OK, resMessage.READ_USER_SUCCESS, idx));
-});
-
-module.exports = router;
+}
+}

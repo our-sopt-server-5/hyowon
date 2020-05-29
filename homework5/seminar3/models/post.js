@@ -1,36 +1,13 @@
-// module.exports = [
-//     {
-//         id:0,
-//         title: '1번',
-//         content: 'aaa',
-//         nickname: 'A',
-//         time: '2020-05-09 21:22:45'
-//     },
-//     {
-//         id:1,
-//         title: '2번',
-//         content: 'bbb',
-//         nickname: 'B',
-//         time: '2020-05-10 04:23:25'
-//     },
-//     {
-//         id:2,
-//         title: '3번',
-//         content: 'ccc',
-//         nickname: 'C',
-//         time: '2020-05-11 10:50:08'
-//     }
-// ];
 const pool = require('../modules/pool');
 const table = 'post';
 var moment = require('moment');
 var date=new Date();
 let now=moment(date).format('YYYY-MM-DD HH:mm:ss');
 const post = {
-    postWrite : async(title, content, name) => {
-        const fields = 'title, content, name, createdAt';
+    postWrite : async(authorIdx, title, content) => {
+        const fields = 'authorIdx, title, content, createdAt';
         const questions = `?,?,?,"${now}"`;
-        const values = [title, content, name];
+        const values = [authorIdx,title, content];
         const query = `INSERT INTO ${table}(${fields}) VALUES (${questions})`;
     
         try {
@@ -94,6 +71,20 @@ const post = {
             return result[0];
         } catch (err) {
             console.log('getPostById error: ', err);
+            throw err;
+        }
+    },
+    getPostByUser : async (authorIdx) => {
+        const query = `SELECT * FROM ${table} WHERE authorIdx ="${authorIdx}"`;
+        try {
+            const result = await pool.queryParamArr(query);
+            if (result.length>0){
+                return true;
+            } else{
+                return false;
+            }
+        } catch (err) {
+            console.log('getPostByUser error: ', err);
             throw err;
         }
     },

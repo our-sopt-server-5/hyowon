@@ -24,5 +24,6 @@ var token = req.headers.token;
         return res.json(util.fail(CODE.UNAUTHORIZED, MSG.INVALID_TOKEN));
     }
     return res.json(util.success(CODE.OK, MSG.AUTH_SUCCESS));
+
 });
 module.exports = router;

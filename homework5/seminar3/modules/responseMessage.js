@@ -33,6 +33,8 @@ module.exports = {
     AUTH_SUCCESS: '인증에 성공했습니다.',
     ISSUE_SUCCESS: '새로운 토큰이 생성되었습니다.',
     //db오류
-    DB_ERROR: "DB 오류"
+    DB_ERROR: "DB 오류",
+    //작성자오류
+    MISS_MATCH_IDX: "본인이 쓴 글이 아닙니다."
 
 };

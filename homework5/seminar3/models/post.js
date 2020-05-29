@@ -74,20 +74,6 @@ const post = {
             throw err;
         }
     },
-    getPostByUser : async (authorIdx) => {
-        const query = `SELECT * FROM ${table} WHERE authorIdx ="${authorIdx}"`;
-        try {
-            const result = await pool.queryParamArr(query);
-            if (result.length>0){
-                return true;
-            } else{
-                return false;
-            }
-        } catch (err) {
-            console.log('getPostByUser error: ', err);
-            throw err;
-        }
-    },
     getPostAll : async () => {
         const query = `SELECT * FROM ${table}`;
         try {

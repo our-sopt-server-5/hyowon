@@ -61,14 +61,6 @@ module.exports ={
             .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_POST_FAIL));
         return;
         }
-        const authorIdx = req.userIdx;
-        const authorId = await Post.getPostByUser(authorIdx);
-        //내가 쓴 글이 아니면
-        if (authorId === false){
-            res.status(statusCode.BAD_REQUEST)
-            .send(util.fail(statusCode.BAD_REQUEST, resMessage.MISS_MATCH_IDX));
-        return;
-        }
         //성공하면
         return res.status(statusCode.OK)
         .send(util.success(statusCode.OK, resMessage.POSTING_UPDATE_SUCCESS, {postId: idx}));
@@ -83,14 +75,6 @@ module.exports ={
             res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
-        }
-        const authorIdx = req.userIdx;
-        const authorId = await Post.getPostByUser(authorIdx);
-        //내가 쓴 글이 아니면
-        if (authorId === false){
-            res.status(statusCode.BAD_REQUEST)
-            .send(util.fail(statusCode.BAD_REQUEST, resMessage.MISS_MATCH_IDX));
-        return;
         }
         //성공하면
         return res.status(statusCode.OK)
